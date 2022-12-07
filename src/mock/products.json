@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Setup",
+        "code": "CODE143706",
+        "img": "https://cdn.pixabay.com/photo/2017/05/11/11/15/workplace-2303851__480.jpg",
+        "price": "$5000"
+    },
+    {
+        "name": "Auriculares",
+        "code": "CODE185756",
+        "img": "https://cdn.pixabay.com/photo/2018/09/17/14/27/headphones-3683983__480.jpg",
+        "price": "$5800"
+
+    },
+    {
+        "name": "Teclado Gamer",
+        "code": "CODE153006",
+        "img": "https://cdn.pixabay.com/photo/2016/03/10/09/24/typewriter-1248088__480.jpg",
+        "price": "$6070"
+
+    }
+]

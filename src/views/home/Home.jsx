@@ -4,32 +4,18 @@ import './Home.css';
 import { useEffect, useState } from "react";
 import { Spinner } from "../../components/spinner/Spinner.jsx";
 
-
-const mockdata = [
-  {
-    "name": "Setup",
-    "img": 'https://cdn.pixabay.com/photo/2017/05/11/11/15/workplace-2303851__480.jpg'
-  },
-  {
-    "name": "Auriculares",
-    "img": 'https://cdn.pixabay.com/photo/2018/09/17/14/27/headphones-3683983__480.jpg'
-  },
-  {
-    "name": "Teclado Gamer",
-    "img": 'https://cdn.pixabay.com/photo/2016/03/10/09/24/typewriter-1248088__480.jpg'
-  }
-]
+import mockProductsData from '../../mock/products.json'
 
 function Home() {
-  const [data, setData] = useState(mockdata);
+  const [data, setData] = useState(mockProductsData);
   const [searchTags, setSearchTags] = useState([])
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (searchTags.length === 0) setData(mockdata);
+    if (searchTags.length === 0) setData(mockProductsData);
     else {
       const result = searchTags.reduce((acc = [], currentTag) => {
-        const result = mockdata.filter(e => e.name.toLocaleLowerCase().includes(currentTag.toLocaleLowerCase()));
+        const result = mockProductsData.filter(e => e.name.toLocaleLowerCase().includes(currentTag.toLocaleLowerCase()));
         acc = [...new Set([...acc, ...result])]
 
         return acc;
@@ -50,44 +36,38 @@ function Home() {
     }, 2000);
   }
 
-  const handleDeleteTag = (e) => {
-    e.preventDefault();
-    setSearchTags(prevValue => prevValue.filter(tag => !tag === e.target.value))
-  }
-
+  const handleDeleteTag = (index) => setSearchTags(prevValue => prevValue.filter((_, i) => i !== index))
 
   return (
-    <div className="home-container">
-      <div className="home-searchbar">
-        <Searchbar onSearch={handleSearch} />
-      </div>
-      <div className="home-search-tag-container">
+    <div className="main-container">
+      <div className="home-container">
+        <div className="home-searchbar">
+          <Searchbar onSearch={handleSearch} />
+        </div>
+        <div className="home-search-tag-container">
+          {
+            searchTags.length > 0 ? searchTags.map((tag, index) => <div key={`${tag}_${index}`} className="home-search-tag">
+              <span>{tag}</span>
+              <button onClick={() => handleDeleteTag(index)} className='home-delete-button'>x</button>
+            </div>) : null
+          }
+        </div>
+        {loading ? <Spinner /> :
+          <div className="home-cards">
+            {data.map((e, i) => <div key={`${e.name}_${i}`}>
+              <Card name={e.name} code={e.code} img={e.img} price={e.price} />
+            </div>)}
+          </div>
+        }
         {
-          searchTags.length > 0 ? searchTags.map((e, i) => {
-            return (
-              <div key={`${e}_${i}`} className="home-search-tag">
-                <span >{e}</span>
-                <button onClick={(e) => handleDeleteTag(e)} className='home-delete-button'>x</button>
-              </div>
-            )
-          }) : null
+          loading ?
+            null
+            :
+            <footer className="home-footer">
+              <span> {data.length} resultados</span>
+            </footer>
         }
       </div>
-      {loading ? <Spinner /> :
-        <div className="home-cards">
-          {data.map((e, i) => {
-            return (
-              <div key={`${e.name}_${i}`}>
-                <Card description={e.name} img={e.img} />
-              </div>
-            )
-          })}
-        </div>
-      }
-      {loading ? null :
-        <footer className="home-footer">
-          <span> {data.length} resultados</span>
-        </footer>}
     </div>
   );
 }
