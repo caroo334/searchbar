@@ -13,7 +13,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-auto-rows: minmax(100px, auto);
-    grid-gap: 20px;
+    grid-gap: 30px;
 }
 
 .home-delete-button {
@@ -46,4 +46,20 @@
     color: #757575;
     margin: 0 3rem 3rem 3rem;
     padding: 15px;
+}
+
+@media (max-width: 640px) {
+    .card-img{
+        max-width: 250px;
+    }
+}
+
+
+@media (max-width: 619px) {
+    .home-cards{
+        gap: 130px;
+    }
+    .home-footer{
+        display: none;
+    }
 }
