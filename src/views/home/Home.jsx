@@ -1,72 +1,78 @@
 import { Searchbar } from "../../components/searchbar/Searchbar.jsx";
 import { Card } from "../../components/card/Card";
-import './Home.css';
+import "./Home.css";
 import { useEffect, useState } from "react";
 import { Spinner } from "../../components/spinner/Spinner.jsx";
-
-import mockProductsData from '../../mock/products.json'
+import { products } from "../../mock/products";
+import { Tag } from "../../components/tag/Tag";
+import { Footer } from "../../components/footer/Footer.jsx";
 
 function Home() {
-  const [data, setData] = useState(mockProductsData);
-  const [searchTags, setSearchTags] = useState([])
+  const [data, setData] = useState(products);
+  const [searchTags, setSearchTags] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (searchTags.length === 0) setData(mockProductsData);
+    if (searchTags.length === 0) setData(products);
     else {
       const result = searchTags.reduce((acc = [], currentTag) => {
-        const result = mockProductsData.filter(e => e.name.toLocaleLowerCase().includes(currentTag.toLocaleLowerCase()));
-        acc = [...new Set([...acc, ...result])]
+        const result = products.filter(
+          (e) =>
+            e.name
+              .toLocaleLowerCase()
+              .includes(currentTag.toLocaleLowerCase()) ||
+            e.code.toLocaleLowerCase().includes(currentTag.toLocaleLowerCase())
+        );
+        acc = [...new Set([...acc, ...result])];
 
         return acc;
-      }, [])
+      }, []);
 
-      setData(result)
+      setData(result);
     }
-  }, [searchTags])
+  }, [searchTags]);
 
   const handleSearch = (searchValue) => {
-    setLoading(true)
+    setLoading(true);
     setTimeout(() => {
       if (searchValue) {
-        const tags = [...new Set([...searchTags, ...searchValue.split(' ')])];
-        setSearchTags(tags)
+        const tags = [...new Set([...searchTags, ...searchValue.split(" ")])];
+        setSearchTags(tags);
       }
       setLoading(false);
     }, 2000);
-  }
+  };
 
-  const handleDeleteTag = (index) => setSearchTags(prevValue => prevValue.filter((_, i) => i !== index))
+  const handleDeleteTag = (index) =>
+    setSearchTags((prevValue) => prevValue.filter((_, i) => i !== index));
 
   return (
     <div className="main-container">
       <div className="home-container">
-        <div className="home-searchbar">
-          <Searchbar onSearch={handleSearch} />
-        </div>
+        <Searchbar onSearch={handleSearch} />
         <div className="home-search-tag-container">
-          {
-            searchTags.length > 0 ? searchTags.map((tag, index) => <div key={`${tag}_${index}`} className="home-search-tag">
-              <span>{tag}</span>
-              <button onClick={() => handleDeleteTag(index)} className='home-delete-button'>x</button>
-            </div>) : null
-          }
+          {searchTags.length > 0
+            ? searchTags.map((tag, index) => (
+                <Tag
+                  key={`${tag}-${index}`}
+                  tag={tag}
+                  onClick={() => handleDeleteTag(index)}
+                />
+              ))
+            : null}
         </div>
-        {loading ? <Spinner /> :
+        {loading ? (
+          <Spinner />
+        ) : (
           <div className="home-cards">
-            {data.map((e, i) => <div key={`${e.name}_${i}`}>
-              <Card name={e.name} code={e.code} img={e.img} price={e.price} />
-            </div>)}
+            {data.map((e, i) => (
+              <div key={`${e.name}_${i}`}>
+                <Card name={e.name} code={e.code} img={e.img} price={e.price} />
+              </div>
+            ))}
           </div>
-        }
-        {
-          loading ?
-            null
-            :
-            <footer className="home-footer">
-              <span> {data.length} resultados</span>
-            </footer>
-        }
+        )}
+        {loading ? null : <Footer count={data.length} />}
       </div>
     </div>
   );

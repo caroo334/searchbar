@@ -1,0 +1,24 @@
+.home-search-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  background-color: #343434;
+  color: #ffffff;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  gap: 4.46px;
+}
+
+.home-delete-button {
+  border: none;
+  color: #ffffff;
+  background-color: transparent;
+  width: 1px;
+}
+
+.home-delete-button:hover {
+  cursor: pointer;
+}

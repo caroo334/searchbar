@@ -1,15 +1,18 @@
 import React from "react";
-import './Card.css';
+import "./Card.css";
 
-export const Card = ({ name, code, img, price }) => {
-    return (
-        <div className="card-container">
-            <img src={img} alt={name} className='card-img' />
-            <div className="card-description">
-                <span className="card-name">{name}</span>
-                <span className="card-code">{code}</span>
-            <p><span className="card-price">Precio:</span>{price}</p>
-            </div>
-        </div>
-    )
-}
+export const Card = ({ name, code, img, price }) => (
+  <div className="card">
+    <img className="image" src={img} alt={name} />
+    <div className="info-container">
+      <div className="name-container">
+        <span className="card-title">{name}</span>
+        <span className="card-code">{code}</span>
+      </div>
+      <div className="price-container">
+        <span className="card-price">Precio:</span>
+        <span className="card-price-amount">{price}</span>
+      </div>
+    </div>
+  </div>
+);

@@ -1,0 +1,14 @@
+.home-footer {
+  margin-top: 10px;
+  border-top: solid 1px #d9d9d9;
+  color: #757575;
+  padding-top: 13px;
+  padding-bottom: 52px;
+}
+
+.footer-text {
+  color: rgba(117, 117, 117, 1);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
